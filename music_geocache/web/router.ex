@@ -25,6 +25,14 @@ defmodule MusicGeocache.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/users", UserController, only: [:new, :create]
+    resources "/sessions", SessionController, only: [:new, :create,
+                                                     :delete]
+  end
+
+  scope "/", MusicGeocache do
+    pipe_through [:browser, :browser_auth]
+    resources "/users", UserController, only: [:show, :index, :update]
   end
 
   # Other scopes may use custom stacks.
